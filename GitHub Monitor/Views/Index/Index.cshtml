@@ -1,0 +1,12 @@
+﻿@model IEnumerable<GitHub_Monitor.Models.Repository>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<select>
+    @foreach (var repository in Model)
+    {
+        <option value="@repository.Id">@repository.Name</option>
+    }
+</select>
