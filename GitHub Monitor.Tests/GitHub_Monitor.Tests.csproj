@@ -115,9 +115,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GitHub Monitor\GitHub Monitor.csproj">
+    <ProjectReference Include="..\GitHub Monitor\GitHub_Monitor.csproj">
       <Project>{781204CB-4EF4-442F-B742-904FEEC009F7}</Project>
-      <Name>GitHub Monitor</Name>
+      <Name>GitHub_Monitor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

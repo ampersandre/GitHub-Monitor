@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHub Monitor", "GitHub Monitor\GitHub Monitor.csproj", "{781204CB-4EF4-442F-B742-904FEEC009F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHub_Monitor", "GitHub Monitor\GitHub_Monitor.csproj", "{781204CB-4EF4-442F-B742-904FEEC009F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHub Monitor.Tests", "GitHub Monitor.Tests\GitHub Monitor.Tests.csproj", "{82339484-EC41-4F41-9B17-ABE510F9A445}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHub_Monitor.Tests", "GitHub Monitor.Tests\GitHub_Monitor.Tests.csproj", "{82339484-EC41-4F41-9B17-ABE510F9A445}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
