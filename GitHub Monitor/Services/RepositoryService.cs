@@ -17,5 +17,10 @@ namespace GitHub_Monitor.Services
 
 			return repositories;
 		}
+
+		public Task<Repository> GetById()
+		{
+			throw new System.NotImplementedException();
+		}
 	}
 }

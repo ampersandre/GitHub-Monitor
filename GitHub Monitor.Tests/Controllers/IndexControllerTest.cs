@@ -40,10 +40,11 @@ namespace GitHub_Monitor.Tests.Controllers
 			var result = await indexController.Index() as ViewResult;
 
 			// Assert
+			Assert.IsNotNull(result);
 			Assert.IsAssignableFrom<List<Repository>>(result.ViewData.Model);
 			var actualRepositories = result.ViewData.Model as List<Repository>;
-			
-			Assert.AreEqual(expectedRepositories.Count, actualRepositories.Count);
+
+			AssertUtils.AreIdentical(expectedRepositories, actualRepositories);
 		}
 
 
@@ -58,9 +59,11 @@ namespace GitHub_Monitor.Tests.Controllers
 			var result = await indexController.Index() as ViewResult;
 
 			// Assert
+			Assert.IsNotNull(result);
 			Assert.IsAssignableFrom<List<Repository>>(result.ViewData.Model);
 			var actualRepositories = result.ViewData.Model as List<Repository>;
 
+			Assert.IsNotNull(actualRepositories);
 			Assert.AreEqual(0, actualRepositories.Count);
 		}
 
@@ -75,6 +78,7 @@ namespace GitHub_Monitor.Tests.Controllers
 			var result = await indexController.Index() as ViewResult;
 
 			// Assert
+			Assert.IsNotNull(result);
 			Assert.AreEqual("Server Error, please try again later", result.ViewBag.Message);
 		}
 		#endregion

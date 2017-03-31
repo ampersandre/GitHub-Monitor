@@ -7,5 +7,7 @@ namespace GitHub_Monitor.Services
 	public interface IRepositoryService
 	{
 		Task<List<Repository>> Get();
+
+		Task<Repository> GetById();
 	}
 }

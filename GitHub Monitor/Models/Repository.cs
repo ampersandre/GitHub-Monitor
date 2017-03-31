@@ -1,4 +1,6 @@
-﻿namespace GitHub_Monitor.Models
+﻿using System;
+
+namespace GitHub_Monitor.Models
 {
 	public class Repository : GitHubEntity
 	{
