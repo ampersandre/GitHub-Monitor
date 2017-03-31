@@ -14,7 +14,7 @@ namespace GitHub_Monitor.Services.Clients
 		public IConnectionMultiplexer RedisConnection { get; set; }
 		#endregion
 
-		// Get the value directly
+		// GetAll the value directly
 		public T Get<T>(string key)
 		{
 			Trace.Assert(!string.IsNullOrWhiteSpace(key));
@@ -32,7 +32,7 @@ namespace GitHub_Monitor.Services.Clients
 			}
 		}
 
-		// Get from cache, or fetch the value and put it in the cache
+		// GetAll from cache, or fetch the value and put it in the cache
 		public async Task<T> Get<T>(string key, Func<Task<T>> resolver)
 		{
 			var value = Get<T>(key);

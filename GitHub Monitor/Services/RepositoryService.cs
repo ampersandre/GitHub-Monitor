@@ -9,18 +9,19 @@ namespace GitHub_Monitor.Services
 	public class RepositoryService : IRepositoryService
 	{
 		[Dependency]
-		public IGitHubClient client { get; set; }
+		public IGitHubClient GitHubClient { get; set; }
 
-		public async Task<List<Repository>> Get()
+		public async Task<IEnumerable<Repository>> GetAll()
 		{
-			var repositories = await client.Get<List<Repository>>("user/repos");
+			var repositories = await GitHubClient.Get<List<Repository>>("user/repos");
 
 			return repositories;
 		}
 
-		public Task<Repository> GetById()
+		public async Task<Repository> GetOne(string owner, string name)
 		{
-			throw new System.NotImplementedException();
+			var repository = await GitHubClient.Get<Repository>($"repos/${owner}/${name}");
+			return repository;
 		}
 	}
 }

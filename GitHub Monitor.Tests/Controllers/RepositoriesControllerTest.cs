@@ -34,8 +34,8 @@ namespace GitHub_Monitor.Tests.Controllers
 		public async Task Get_ShouldReturnRepositories_WhenThereAreRepositories()
 		{
 			// Setup
-			var expectedRepositories = Enumerable.Range(1, 7).Select(Generator.GenerateRepository).ToList();
-			mockRepositoryService.Setup(s => s.Get()).Returns(() => Task.FromResult(expectedRepositories));
+			var expectedRepositories = Enumerable.Range(1, 7).Select(Generator.GenerateRepository);
+			mockRepositoryService.Setup(s => s.GetAll()).Returns(() => Task.FromResult(expectedRepositories));
 
 			// Execute
 			var actualRepositories = await repositoriesController.Get();
@@ -49,8 +49,8 @@ namespace GitHub_Monitor.Tests.Controllers
 		public async Task Get_ShouldReturnEmptyList_WhenThereAreNoRepositories()
 		{
 			// Setup
-			var expectedRepositories = new List<Repository>();
-			mockRepositoryService.Setup(s => s.Get()).Returns(() => Task.FromResult(expectedRepositories));
+			IEnumerable<Repository> expectedRepositories = new List<Repository>();
+			mockRepositoryService.Setup(s => s.GetAll()).Returns(() => Task.FromResult(expectedRepositories));
 
 			// Execute
 			var actualRepositories = await repositoriesController.Get();
@@ -64,7 +64,7 @@ namespace GitHub_Monitor.Tests.Controllers
 		public async Task Get_ShouldThrow500_WhenRepositoryServiceThrowsError()
 		{
 			// Setup
-			mockRepositoryService.Setup(s => s.Get()).Throws(new ArgumentException("Invalid Configuration"));
+			mockRepositoryService.Setup(s => s.GetAll()).Throws(new ArgumentException("Invalid Configuration"));
 
 			// Execute
 			try
@@ -81,51 +81,34 @@ namespace GitHub_Monitor.Tests.Controllers
 		#endregion
 
 
-		#region GetById
+		#region Get
 		[Test]
-		public async Task GetById_ShouldReturnExpectedRepository_WhenTargetRepositoryExists()
+		public async Task GetOne_ShouldReturnExpectedRepository_WhenTargetRepositoryExists()
 		{
 			// Setup
-			var repositories = Enumerable.Range(1, 7).Select(Generator.GenerateRepository).ToList();
-			mockRepositoryService.Setup(s => s.Get()).Returns(() => Task.FromResult(repositories));
-			var expectedRepository = repositories.Single(r => r.Id == 5);
+			var owner = "ampersandre";
+			var name = "frog-translator";
+			var expectedRepository = Generator.GenerateRepository();
+			mockRepositoryService.Setup(s => s.GetOne(owner, name)).Returns(() => Task.FromResult(expectedRepository));
 
 			// Execute
-			var actualRepository = await repositoriesController.Get(5);
+			var actualRepository = await repositoriesController.Get(owner, name);
 
 			// Assert
 			Assert.AreEqual(expectedRepository, actualRepository);
 		}
-
-
-		[Test]
-		public async Task GetById_ShouldReturnNull_WhenTargetRepositoryDoesNotExist()
-		{
-			// Setup
-			var missingRepositoryId = 5;
-			var expectedRepositories = Enumerable.Range(1, 7)
-												.Select(Generator.GenerateRepository)
-												.Where(r => r.Id != missingRepositoryId) // Remove ID = 5
-												.ToList();
-			mockRepositoryService.Setup(s => s.Get()).Returns(() => Task.FromResult(expectedRepositories));
-
-			// Execute
-			var actualRepository = await repositoriesController.Get(missingRepositoryId);
-
-			// Assert
-			Assert.IsNull(actualRepository, "Should not have returned a repository");
-		}
-
+		
 
 		[Test]
-		public async Task GetById_ShouldReturnNull_WhenThereAreNoRepositoriesAtAll()
+		public async Task GetOne_ShouldReturnNull_WhenRepositoryNotFound()
 		{
 			// Setup
-			var expectedRepositories = new List<Repository>();
-			mockRepositoryService.Setup(s => s.Get()).Returns(() => Task.FromResult(expectedRepositories));
+			var owner = "ampersandre";
+			var name = "library-delivery-service";
+			mockRepositoryService.Setup(s => s.GetOne(owner, name)).Returns(() => Task.FromResult<Repository>(null));
 
 			// Execute
-			var actualRepository = await repositoriesController.Get(5);
+			var actualRepository = await repositoriesController.Get(owner, name);
 
 			// Assert
 			Assert.IsNull(actualRepository, "Should not have returned a repository");
@@ -136,7 +119,7 @@ namespace GitHub_Monitor.Tests.Controllers
 		public async Task RepositoriesController_ShouldThrow500_WhenRepositoryServiceThrowsError()
 		{
 			// Setup
-			mockRepositoryService.Setup(s => s.Get()).Throws(new ArgumentException("Invalid Configuration"));
+			mockRepositoryService.Setup(s => s.GetAll()).Throws(new ArgumentException("Invalid Configuration"));
 
 			// Execute
 			try
@@ -151,7 +134,6 @@ namespace GitHub_Monitor.Tests.Controllers
 			}
 		}
 		#endregion
-
 
 	}
 }

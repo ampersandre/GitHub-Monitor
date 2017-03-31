@@ -29,7 +29,7 @@ namespace GitHub_Monitor.Tests.Services.Clients
 		}
 		#endregion
 
-		#region Get(string)
+		#region GetAll(string)
 		[Test]
 		public void Get_ShouldReturnExpectedValue_WhenCacheContainsValue()
 		{
@@ -75,7 +75,7 @@ namespace GitHub_Monitor.Tests.Services.Clients
 		}
 		#endregion
 
-		#region Get(string, func)
+		#region GetAll(string, func)
 		[Test]
 		public async Task GetWithFunc_ShouldReturnExpectedValue_WhenCacheContainsValue()
 		{
