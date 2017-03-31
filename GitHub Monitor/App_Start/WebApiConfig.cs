@@ -14,6 +14,12 @@ namespace GitHub_Monitor
 			config.MapHttpAttributeRoutes();
 
 			config.Routes.MapHttpRoute(
+				name: "RepositoriesApi",
+				routeTemplate: "api/repositories/{owner}/{name}",
+				defaults: new { controller = "Repositories", id = RouteParameter.Optional }
+			);
+
+			config.Routes.MapHttpRoute(
 				name: "DefaultApi",
 				routeTemplate: "api/{controller}/{id}",
 				defaults: new { id = RouteParameter.Optional }

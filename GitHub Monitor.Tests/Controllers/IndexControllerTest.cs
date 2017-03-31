@@ -34,7 +34,7 @@ namespace GitHub_Monitor.Tests.Controllers
 		{
 			// Setup
 			var expectedRepositories = Enumerable.Range(1, 7).Select(Generator.GenerateRepository).ToList();
-			mockRepositoryService.Setup(s => s.Get()).Returns(() => Task.FromResult(expectedRepositories));
+			mockRepositoryService.Setup(s => s.GetAll()).Returns(() => Task.FromResult(expectedRepositories as IEnumerable<Repository>));
 
 			// Execute
 			var result = await indexController.Index() as ViewResult;
@@ -52,8 +52,8 @@ namespace GitHub_Monitor.Tests.Controllers
 		public async Task IndexController_ShouldReturnEmptySet_WhenThereAreNoRepositories()
 		{
 			// Setup
-			var expectedRepositories = new List<Repository>();
-			mockRepositoryService.Setup(s => s.Get()).Returns(() => Task.FromResult(expectedRepositories));
+			IEnumerable<Repository> expectedRepositories = new List<Repository>();
+			mockRepositoryService.Setup(s => s.GetAll()).Returns(() => Task.FromResult(expectedRepositories));
 
 			// Execute
 			var result = await indexController.Index() as ViewResult;
@@ -72,7 +72,7 @@ namespace GitHub_Monitor.Tests.Controllers
 		public async Task IndexController_ShouldProvideErrorMessage_WhenRepositoryServiceThrowsError()
 		{
 			// Setup
-			mockRepositoryService.Setup(s => s.Get()).Throws(new ArgumentException("Invalid Configuration"));
+			mockRepositoryService.Setup(s => s.GetAll()).Throws(new ArgumentException("Invalid Configuration"));
 
 			// Execute
 			var result = await indexController.Index() as ViewResult;

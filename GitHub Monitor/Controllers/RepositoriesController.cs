@@ -20,7 +20,7 @@ namespace GitHub_Monitor.Controllers
 		{
 			try
 			{
-				var repositories = await RepositoryService.Get();
+				var repositories = await RepositoryService.GetAll();
 				return repositories;
 			}
 			catch (Exception)
@@ -29,14 +29,13 @@ namespace GitHub_Monitor.Controllers
 			}
 		}
 
-		// GET: /repositories/id
-		public async Task<Repository> Get(int id)
+		// GET: /repositories/:owner/:name
+		public async Task<Repository> Get(string owner, string name)
 		{
 			try
 			{
-				// TODO: Implement GetById in RepositoryService
-				var repositories = await RepositoryService.Get();
-				return repositories.SingleOrDefault(repo => repo.Id == id);
+				var repository = await RepositoryService.GetOne(owner, name);
+				return repository;
 			}
 			catch (Exception)
 			{

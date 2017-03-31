@@ -15,7 +15,7 @@ namespace GitHub_Monitor.Controllers
 		{
 			try
 			{
-				var repositories = await RepositoryService.Get();
+				var repositories = await RepositoryService.GetAll();
 				return View(repositories);
 			}
 			catch (Exception)
