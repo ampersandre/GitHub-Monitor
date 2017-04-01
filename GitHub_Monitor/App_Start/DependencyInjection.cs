@@ -20,16 +20,17 @@ namespace GitHub_Monitor.App_Start
 			DependencyResolver.SetResolver(new UnityDependencyResolver(container));
 		}
 
-		private static void RegisterServices(UnityContainer container)
+		private static void RegisterServices(IUnityContainer container)
 		{
 			container.RegisterType<IGitHubClient, GitHubRestClient>();
 			container.RegisterType<IRepositoryService, RepositoryService>();
 			container.RegisterType<IPullRequestService, PullRequestService>();
 		}
 
-		private static void RegisterCache(UnityContainer container)
+		private static void RegisterCache(IUnityContainer container)
 		{
 			var redisConnectionString = ConfigurationManager.ConnectionStrings["redis"];
+			var memcachedConnectionString = ConfigurationManager.ConnectionStrings["memcached"];
 			if (redisConnectionString != null)
 			{
 				string configString = redisConnectionString.ConnectionString;
@@ -39,11 +40,14 @@ namespace GitHub_Monitor.App_Start
 				container.RegisterInstance(redisConnectionMultiplexer);
 				container.RegisterType<ICacheClient, RedisCacheClient>();
 			}
+			else if (memcachedConnectionString != null)
+			{
+				container.RegisterType<ICacheClient, MemcachedCacheClient>();
+			}
 			else
 			{
-				// Try to initialize MemcachedCacheClient
+				container.RegisterType<ICacheClient, DoNothingCacheClient>();
 			}
-			
 		}
 	}
 }
