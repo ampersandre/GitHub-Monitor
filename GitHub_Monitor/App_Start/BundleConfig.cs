@@ -1,31 +1,35 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace GitHub_Monitor
 {
 	public class BundleConfig
 	{
-		// For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
 		public static void RegisterBundles(BundleCollection bundles)
 		{
+			#region Scripts
 			bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
 						"~/Scripts/jquery-{version}.js"));
 
-			bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-						"~/Scripts/jquery.validate*"));
+			bundles.Add(new ScriptBundle("~/bundles/ui").Include(
+						"~/Scripts/handlebars.min.js",
+						"~/Scripts/bootstrap.js",
+						"~/Scripts/respond.js",
+						"//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"));
 
-			// Use the development version of Modernizr to develop with and learn from. Then, when you're
-			// ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
+			bundles.Add(new ScriptBundle("~/bundles/util").Include(
+						"~/Scripts/app/api.js"));
+
 			bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
 						"~/Scripts/modernizr-*"));
+			#endregion
 
-			bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-					  "~/Scripts/bootstrap.js",
-					  "~/Scripts/respond.js"));
-
+			#region Styles
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 					  "~/Content/bootstrap.css",
+					  "//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css",
+					  "~/Content/elements/spinkit.css",
 					  "~/Content/site.css"));
+			#endregion
 		}
 	}
 }
