@@ -3,6 +3,7 @@ using Microsoft.Practices.Unity;
 using GitHub_Monitor.Services;
 using GitHub_Monitor.Services.Clients;
 using System.Configuration;
+using RestSharp;
 using StackExchange.Redis;
 
 namespace GitHub_Monitor.App_Start
@@ -39,6 +40,7 @@ namespace GitHub_Monitor.App_Start
 
 		private static void RegisterServices(IUnityContainer container)
 		{
+			container.RegisterType<IRestClient, RestClient>();
 			container.RegisterType<IGitHubClient, GitHubRestClient>();
 			container.RegisterType<IRepositoryService, RepositoryService>();
 			container.RegisterType<IPullRequestService, PullRequestService>();

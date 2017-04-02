@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using Microsoft.Practices.Unity;
 using RestSharp;
 using RestSharp.Authenticators;
 
@@ -10,11 +9,12 @@ namespace GitHub_Monitor.Services.Clients
 {
 	public class GitHubRestClient : IGitHubClient
 	{
-		private readonly RestClient client;
+		[Dependency]
+		public IRestClient RestClient { get; set; }
 
 		public GitHubRestClient()
 		{
-			client = new RestClient("https://api.github.com");
+			RestClient = new RestClient("https://api.github.com");
 			
 			var accessToken = Environment.GetEnvironmentVariable("GITHUB_ACCESS_TOKEN")
 							?? ConfigurationManager.AppSettings["gitHubAccessToken"];
@@ -22,7 +22,7 @@ namespace GitHub_Monitor.Services.Clients
 			{
 				throw new ArgumentException("Missing GitHub Access Token. Please set the GITHUB_ACCESS_TOKEN environment variable or provide the gitHubAccessToken AppSetting");
 			}
-			client.Authenticator = new OAuth2UriQueryParameterAuthenticator(accessToken);
+			RestClient.Authenticator = new OAuth2UriQueryParameterAuthenticator(accessToken);
 		}
 
 
@@ -31,9 +31,8 @@ namespace GitHub_Monitor.Services.Clients
 			return Task.Run(() =>
 			{
 				var request = new RestRequest(url, Method.GET);
-
-				var response = client.Execute(request);
-				return client.Execute<T>(request).Data;
+					
+				return RestClient.Execute<T>(request).Data;
 			});
 		}
 	}
