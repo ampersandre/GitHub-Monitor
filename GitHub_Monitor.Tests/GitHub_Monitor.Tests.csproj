@@ -104,12 +104,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\PullRequestsControllerTest.cs" />
     <Compile Include="Controllers\RepositoriesControllerTest.cs" />
     <Compile Include="Controllers\IndexControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Clients\DoNothingCacheClientTest.cs" />
     <Compile Include="Services\Clients\GitHubRestClientTest.cs" />
     <Compile Include="Services\Clients\RedisCacheClientTest.cs" />
+    <Compile Include="Services\PullRequestServiceTest.cs" />
     <Compile Include="Services\RepositoryServiceTest.cs" />
     <Compile Include="TestUtilities\AssertUtils.cs" />
     <Compile Include="TestUtilities\Generator.cs" />

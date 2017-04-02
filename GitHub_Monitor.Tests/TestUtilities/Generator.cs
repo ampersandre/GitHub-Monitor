@@ -25,6 +25,17 @@ namespace GitHub_Monitor.Tests.TestUtilities
 		}
 		#endregion
 
+		#region PullRequests
+		public static PullRequest GeneratePullRequest(int id = 0)
+		{
+			return new PullRequest()
+			{
+				Id = id > 0 ? id : random.Next(),
+				HtmlUrl = Guid.NewGuid().ToString().Substring(0, 20)
+			};
+		}
+		#endregion
+
 
 		#region Owner
 		public static User GeneraterUser(int id = 0)
