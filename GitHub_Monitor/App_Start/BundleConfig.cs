@@ -13,8 +13,7 @@ namespace GitHub_Monitor
 			bundles.Add(new ScriptBundle("~/bundles/ui").Include(
 						"~/Scripts/handlebars.min.js",
 						"~/Scripts/bootstrap.js",
-						"~/Scripts/respond.js",
-						"//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"));
+						"~/Scripts/respond.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/util").Include(
 						"~/Scripts/app/api.js"));
@@ -26,7 +25,6 @@ namespace GitHub_Monitor
 			#region Styles
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 					  "~/Content/bootstrap.css",
-					  "//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css",
 					  "~/Content/elements/spinkit.css",
 					  "~/Content/site.css"));
 			#endregion

@@ -103,6 +103,7 @@
     <Compile Include="Controllers\RepositoriesControllerTest.cs" />
     <Compile Include="Controllers\IndexControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Clients\DoNothingCacheClientTest.cs" />
     <Compile Include="Services\Clients\RedisCacheClientTest.cs" />
     <Compile Include="Services\RepositoryServiceTest.cs" />
     <Compile Include="TestUtilities\AssertUtils.cs" />

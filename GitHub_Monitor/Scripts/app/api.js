@@ -6,7 +6,7 @@ App.Api = function() {
 };
 
 App.Api.prototype.get = function(path, userOpts) {
-    var opts = Object.apply({
+    var opts = Object.assign({
             requestId: '',
             params: {},
             success: () => {},

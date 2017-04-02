@@ -8,13 +8,13 @@
     <select id="repositorySelect">
         @foreach (var repository in Model)
         {
-            <option data-owner="@repository.Owner" data-name="@repository.Name">@repository.Name</option>
+            <option data-owner="@repository.Owner.Login" data-name="@repository.Name">@repository.Name</option>
         }
     </select>
 </div>
 
 <div id="dashboard">
-    <div class="loading">Loading...</div>
+    <div class="loader">Loading...</div>
     <div id="dashboardPanel"></div>
 </div>
 
@@ -23,7 +23,7 @@
         var App = App || {};
         @* TODO: Turn this into a require module *@
         $(() => {
-            App.api = App.Api();
+            App.api = new App.Api();
             App.templates = registerHandlebarsTemplates();
             App.dom = {};
             App.dom.repositorySelect = $('#repositorySelect');
@@ -33,11 +33,11 @@
             prepareUi();
 
 
-            repositorySelect.on('change',
-                () => {
-                    var $this = $(this);
-                    var owner = $this.data('owner');
-                    var name = $this.data('name');
+            App.dom.repositorySelect.on('change',
+                (e) => {
+                    var option = $(e.target).find('option:selected');
+                    var owner = option.data('owner');
+                    var name = option.data('name');
                     loadDashboardForRepository(owner, name);
                 });
 
@@ -45,28 +45,31 @@
 
         function loadDashboardForRepository(owner, name) {
             App.dom.dashboard.addClass('loading');
-            App.api.get(`/repositories/${owner}/${name}`, {
-                success: (repo) => {
-                    var dashboardPanel = Api.templates['dashboard'](repo);
-                    Api.dom.dashboardPanel.html(dashboardPanel);
-                },
-                error: (err) => {
-                    console.log(err);
-                    toastr.error('Error loading repository information, see console for details', 'Error');
-                },
-                complete: () => {
-                    App.dom.dashboard.removeClass('loading');
-                }
-            });
+            setTimeout(function() {
+                App.api.get(`/repositories/${owner}/${name}`,
+                {
+                    success: (repo) => {
+                        var dashboardPanel = App.templates['dashboard'](repo);
+                        App.dom.dashboardPanel.html(dashboardPanel);
+                    },
+                    error: (err) => {
+                        console.log(err);
+                        toastr.error('Error loading repository information, see console for details', 'Error');
+                    },
+                    complete: () => {
+                        App.dom.dashboard.removeClass('loading');
+                    }
+                });
+            }, 2600); // Let the loading animation play out for a couple seconds
         }
 
         function prepareUi() {
             if (Modernizr.cssanimations) {
                 var loadingElement = App.templates['loader']();
-                $('.loading').html(loadingElement);
+                $('.loader').html(loadingElement);
             } else {
                 var loadingElement = '<img src="/Content/images/load.gif"/>';
-                $('.loading').html(loadingElement);
+                $('.loader').html(loadingElement);
             }
         }
 
@@ -74,10 +77,10 @@
             var templateElements = $('script[type="text/x-handlebars-template"]');
 
             var templateCollection = {}
-            templateElements.each(() => {
-                var $this = $(this);
-                var id = $this.attr('id').replace('template-', '');
-                var source = $this.html();
+            templateElements.each((i, element) => {
+                var $element = $(element);
+                var id = $element.attr('id').replace('template-', '');
+                var source = $element.html();
                 var template = Handlebars.compile(source);
                 templateCollection[id] = (context) => $(template(context));
             });
@@ -92,7 +95,7 @@
     <script id="template-dashboard" type="text/x-handlebars-template">
         <div class="dashboard">
             <div class="repository">
-                {{repository.name}}
+                {{Name}}
             </div>
         </div>
     </script>

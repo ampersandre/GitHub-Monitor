@@ -64,7 +64,7 @@ namespace GitHub_Monitor.Tests.Services
 			var owner = "ampersandre";
 			var name = "fitbit-except-for-blinking";
 			var expectedRepository = Generator.GenerateRepository();
-			mockGitHubClient.Setup(c => c.Get<Repository>($"repos/${owner}/${name}")).Returns(Task.FromResult(expectedRepository));
+			mockGitHubClient.Setup(c => c.Get<Repository>($"repos/{owner}/{name}")).Returns(Task.FromResult(expectedRepository));
 
 			// Execute
 			var actualRepository = await service.GetOne(owner, name);
@@ -79,7 +79,7 @@ namespace GitHub_Monitor.Tests.Services
 			// Setup
 			var owner = "ampersandre";
 			var name = "slack-over-sms";
-			mockGitHubClient.Setup(c => c.Get<Repository>($"repos/${owner}/${name}")).Returns(Task.FromResult<Repository>(null));
+			mockGitHubClient.Setup(c => c.Get<Repository>($"repos/{owner}/{name}")).Returns(Task.FromResult<Repository>(null));
 
 			// Execute
 			var actualRepository = await service.GetOne(owner, name);
