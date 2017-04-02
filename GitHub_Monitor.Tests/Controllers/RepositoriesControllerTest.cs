@@ -113,26 +113,6 @@ namespace GitHub_Monitor.Tests.Controllers
 			// Assert
 			Assert.IsNull(actualRepository, "Should not have returned a repository");
 		}
-
-
-		[Test]
-		public async Task RepositoriesController_ShouldThrow500_WhenRepositoryServiceThrowsError()
-		{
-			// Setup
-			mockRepositoryService.Setup(s => s.GetAll()).Throws(new ArgumentException("Invalid Configuration"));
-
-			// Execute
-			try
-			{
-				await repositoriesController.Get();
-				Assert.Fail("Expected HTTP 500 to be thrown");
-			}
-			catch (HttpResponseException exception)
-			{
-				// Assert
-				Assert.AreEqual(HttpStatusCode.InternalServerError, exception.Response.StatusCode);
-			}
-		}
 		#endregion
 
 	}

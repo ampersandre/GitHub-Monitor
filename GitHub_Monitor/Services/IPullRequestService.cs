@@ -6,8 +6,8 @@ namespace GitHub_Monitor.Services
 {
 	public interface IPullRequestService
 	{
-		Task<IEnumerable<PullRequest>> GetByRepositoryId();
+		Task<IEnumerable<PullRequest>> GetAll(string owner, string name);
 
-		Task<PullRequest> GetById(int id);
+		Task<PullRequest> GetOne(string owner, string name, int id);
 	}
 }

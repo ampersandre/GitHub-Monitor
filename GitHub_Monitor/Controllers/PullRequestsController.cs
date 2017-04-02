@@ -9,18 +9,19 @@ using Microsoft.Practices.Unity;
 
 namespace GitHub_Monitor.Controllers
 {
-	public class RepositoriesController : ApiController
+	public class PullRequestsController : ApiController
 	{
 		[Dependency]
-		public IRepositoryService RepositoryService { get; set; }
+		public IPullRequestService PullRequestService { get; set; }
 
-		// GET: /repositories
-		public async Task<IEnumerable<Repository>> Get()
+		// GET: /repositories/:owner/:name
+		public async Task<IEnumerable<PullRequest>>  Get(string owner, string name)
 		{
 			try
 			{
-				var repositories = await RepositoryService.GetAll();
-				return repositories;
+				var pullRequests = await PullRequestService.GetAll(owner, name);
+
+				return pullRequests;
 			}
 			catch (Exception)
 			{
@@ -28,13 +29,14 @@ namespace GitHub_Monitor.Controllers
 			}
 		}
 
-		// GET: /repositories/:owner/:name
-		public async Task<Repository> Get(string owner, string name)
+		// GET: /repositories/:owner/:name/:id
+		public async Task<PullRequest> Get(string owner, string name, int id)
 		{
 			try
 			{
-				var repository = await RepositoryService.GetOne(owner, name);
-				return repository;
+				var pullRequest = await PullRequestService.GetOne(owner, name, id);
+
+				return pullRequest;
 			}
 			catch (Exception)
 			{
