@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
 
@@ -30,6 +32,7 @@ namespace GitHub_Monitor.Services.Clients
 			{
 				var request = new RestRequest(url, Method.GET);
 
+				var response = client.Execute(request);
 				return client.Execute<T>(request).Data;
 			});
 		}

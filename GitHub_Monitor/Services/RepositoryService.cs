@@ -20,7 +20,7 @@ namespace GitHub_Monitor.Services
 
 		public async Task<Repository> GetOne(string owner, string name)
 		{
-			var repository = await GitHubClient.Get<Repository>($"repos/${owner}/${name}");
+			var repository = await GitHubClient.Get<Repository>($"repos/{owner}/{name}");
 			return repository;
 		}
 	}

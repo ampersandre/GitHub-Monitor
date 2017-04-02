@@ -4,9 +4,108 @@
 }
 
 
-<select>
-    @foreach (var repository in Model)
-    {
-        <option value="@repository.Id">@repository.Name</option>
-    }
-</select>
+<div id="menu">
+    <select id="repositorySelect">
+        @foreach (var repository in Model)
+        {
+            <option data-owner="@repository.Owner.Login" data-name="@repository.Name">@repository.Name</option>
+        }
+    </select>
+</div>
+
+<div id="dashboard">
+    <div class="loader">Loading...</div>
+    <div id="dashboardPanel"></div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        var App = App || {};
+        @* TODO: Turn this into a require module *@
+        $(() => {
+            App.api = new App.Api();
+            App.templates = registerHandlebarsTemplates();
+            App.dom = {};
+            App.dom.repositorySelect = $('#repositorySelect');
+            App.dom.dashboard = $('#dashboard');
+            App.dom.dashboardPanel = $('#dashboardPanel');
+
+            prepareUi();
+
+
+            App.dom.repositorySelect.on('change',
+                (e) => {
+                    var option = $(e.target).find('option:selected');
+                    var owner = option.data('owner');
+                    var name = option.data('name');
+                    loadDashboardForRepository(owner, name);
+                });
+
+        });
+
+        function loadDashboardForRepository(owner, name) {
+            App.dom.dashboard.addClass('loading');
+            setTimeout(function() {
+                App.api.get(`/repositories/${owner}/${name}`,
+                {
+                    success: (repo) => {
+                        var dashboardPanel = App.templates['dashboard'](repo);
+                        App.dom.dashboardPanel.html(dashboardPanel);
+                    },
+                    error: (err) => {
+                        console.log(err);
+                        toastr.error('Error loading repository information, see console for details', 'Error');
+                    },
+                    complete: () => {
+                        App.dom.dashboard.removeClass('loading');
+                    }
+                });
+            }, 2600); // Let the loading animation play out for a couple seconds
+        }
+
+        function prepareUi() {
+            if (Modernizr.cssanimations) {
+                var loadingElement = App.templates['loader']();
+                $('.loader').html(loadingElement);
+            } else {
+                var loadingElement = '<img src="/Content/images/load.gif"/>';
+                $('.loader').html(loadingElement);
+            }
+        }
+
+        function registerHandlebarsTemplates() {
+            var templateElements = $('script[type="text/x-handlebars-template"]');
+
+            var templateCollection = {}
+            templateElements.each((i, element) => {
+                var $element = $(element);
+                var id = $element.attr('id').replace('template-', '');
+                var source = $element.html();
+                var template = Handlebars.compile(source);
+                templateCollection[id] = (context) => $(template(context));
+            });
+
+            return templateCollection;
+        }
+
+    </script>
+
+
+    @* TODO: Precompile these handblebars templates on the server. This is fine for now *@
+    <script id="template-dashboard" type="text/x-handlebars-template">
+        <div class="dashboard">
+            <div class="repository">
+                {{Name}}
+            </div>
+        </div>
+    </script>
+    
+    <script id="template-loader" type="text/x-handlebars-template">
+        <div class="sk-folding-cube">
+            <div class="sk-cube1 sk-cube"></div>
+            <div class="sk-cube2 sk-cube"></div>
+            <div class="sk-cube4 sk-cube"></div>
+            <div class="sk-cube3 sk-cube"></div>
+        </div>
+    </script>
+}
