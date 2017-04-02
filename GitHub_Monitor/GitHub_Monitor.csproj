@@ -190,7 +190,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\GitHubEntity.cs" />
-    <Compile Include="Models\Owner.cs" />
     <Compile Include="Models\PullRequest.cs" />
     <Compile Include="Models\Repository.cs" />
     <Compile Include="Models\User.cs" />

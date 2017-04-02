@@ -15,7 +15,7 @@ namespace GitHub_Monitor.Tests.TestUtilities
 			{
 				Id = id > 0 ? id : random.Next(),
 				Name = Guid.NewGuid().ToString().Substring(0, 8),
-				Owner = GenerateOwner(),
+				Owner = GeneraterUser(),
 				HtmlUrl = Guid.NewGuid().ToString().Substring(0, 20),
 				ForksCount = random.Next(),
 				OpenIssuesCount = random.Next(),
@@ -27,12 +27,13 @@ namespace GitHub_Monitor.Tests.TestUtilities
 
 
 		#region Owner
-		public static Owner GenerateOwner(int id = 0)
+		public static User GeneraterUser(int id = 0)
 		{
-			return new Owner()
+			return new User()
 			{
 				Id = id > 0 ? id : random.Next(),
 				Login = Guid.NewGuid().ToString().Substring(0, 8),
+				AvatarUrl = Guid.NewGuid().ToString(),
 				HtmlUrl = Guid.NewGuid().ToString().Substring(0, 20)
 			};
 		}
